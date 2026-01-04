@@ -39,6 +39,14 @@ Example: `examples/chapter-09-react-native-social`
 Chapter 10: Creating a Virtual Reality Application with React and Three.js  
 Example: `examples/chapter-10-react-three`
 
+## Using the latest stable tooling
+
+All examples in this repo are framework-only source files. To ensure students run
+them on current, supported versions, create a fresh React or Expo project using
+the latest scaffolding tools, then copy the example files into that project.
+
+See `examples/SETUP.md` for up-to-date setup commands.
+
 ## Course schedule aligned examples
 
 The folders below map directly to weekly assignments so students can start from
