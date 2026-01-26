@@ -19,6 +19,9 @@ npm start
 ```
 public/
   index.html
+## Suggested Structure
+
+```
 src/
   assets/
   components/
