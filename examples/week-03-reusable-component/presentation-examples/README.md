@@ -7,6 +7,18 @@ It demonstrates:
 - A reusable `<List />` component that accepts an `items` array.
 - Routing with React Router v6, including a dynamic route for project details.
 
+## Getting Started
+
+```bash
+npm install
+npm start
+```
+
+## Suggested Structure
+
+```
+public/
+  index.html
 ## Suggested Structure
 
 ```
