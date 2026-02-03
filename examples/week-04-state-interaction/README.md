@@ -16,7 +16,6 @@ Imagine a “lux media encyclopedia” for a single user. Each entry captures a 
 ## Running the Example
 
 ```bash
-cd examples/week-04-state-interaction
 npm install
 npx expo start
 ```
