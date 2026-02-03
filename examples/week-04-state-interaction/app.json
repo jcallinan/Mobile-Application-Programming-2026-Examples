@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Lux Media Encyclopedia",
+    "slug": "lux-media-encyclopedia",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "assetBundlePatterns": ["**/*"]
+  }
+}
