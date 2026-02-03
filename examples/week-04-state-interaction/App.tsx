@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import FilterBar from './components/FilterBar';
 import MediaForm from './components/MediaForm';
 import MediaList from './components/MediaList';
 import type { MediaItem, NewMediaItem } from './types';
 
-const db = SQLite.openDatabase('lux_media.db');
+const db = Platform.OS === 'web' ? null : SQLite.openDatabase('lux_media.db');
+const WEB_STORAGE_KEY = 'lux-media-encyclopedia-items';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +52,20 @@ export default function App() {
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
   useEffect(() => {
-    db.transaction(
+    if (Platform.OS === 'web') {
+      const storedItems = localStorage.getItem(WEB_STORAGE_KEY);
+      if (storedItems) {
+        try {
+          const parsed = JSON.parse(storedItems) as MediaItem[];
+          setItems(parsed);
+        } catch (error) {
+          console.warn('Failed to parse stored items', error);
+        }
+      }
+      return;
+    }
+
+    db?.transaction(
       (tx) => {
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS media_items (
@@ -82,11 +96,19 @@ export default function App() {
   }, []);
 
   const fetchItems = () => {
+    if (!db) {
+      return;
+    }
     db.transaction((tx) => {
       tx.executeSql('SELECT * FROM media_items ORDER BY created_at DESC;', [], (_, { rows }) => {
         setItems(rows._array as MediaItem[]);
       });
     });
+  };
+
+  const persistWebItems = (nextItems: MediaItem[]) => {
+    setItems(nextItems);
+    localStorage.setItem(WEB_STORAGE_KEY, JSON.stringify(nextItems));
   };
 
   const handleAdd = (item: NewMediaItem) => {
@@ -96,6 +118,18 @@ export default function App() {
     }
 
     const now = new Date().toISOString();
+    if (!db) {
+      const nextItems = [
+        {
+          id: Date.now(),
+          created_at: now,
+          ...item,
+        },
+        ...items,
+      ];
+      persistWebItems(nextItems);
+      return;
+    }
     db.transaction((tx) => {
       tx.executeSql(
         'INSERT INTO media_items (title, url, category, notes, created_at, rating, favorite) VALUES (?, ?, ?, ?, ?, ?, ?);',
@@ -108,6 +142,10 @@ export default function App() {
   };
 
   const handleDelete = (id: number) => {
+    if (!db) {
+      persistWebItems(items.filter((item) => item.id !== id));
+      return;
+    }
     db.transaction((tx) => {
       tx.executeSql('DELETE FROM media_items WHERE id = ?;', [id], () => {
         fetchItems();
@@ -117,6 +155,12 @@ export default function App() {
 
   const handleToggleFavorite = (item: MediaItem) => {
     const nextValue = item.favorite ? 0 : 1;
+    if (!db) {
+      persistWebItems(
+        items.map((entry) => (entry.id === item.id ? { ...entry, favorite: nextValue } : entry))
+      );
+      return;
+    }
     db.transaction((tx) => {
       tx.executeSql('UPDATE media_items SET favorite = ? WHERE id = ?;', [nextValue, item.id], () => {
         fetchItems();
@@ -125,6 +169,12 @@ export default function App() {
   };
 
   const handleUpdateRating = (item: MediaItem, rating: number) => {
+    if (!db) {
+      persistWebItems(
+        items.map((entry) => (entry.id === item.id ? { ...entry, rating } : entry))
+      );
+      return;
+    }
     db.transaction((tx) => {
       tx.executeSql('UPDATE media_items SET rating = ? WHERE id = ?;', [rating, item.id], () => {
         fetchItems();

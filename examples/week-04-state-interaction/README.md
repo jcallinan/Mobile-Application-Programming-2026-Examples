@@ -6,7 +6,7 @@ This example replaces the original Week 04 materials with a single multi-tier Ex
 
 - **Multi-tier architecture**: UI components → data access (SQLite) → persistent storage.
 - **Reusable components**: `MediaForm`, `FilterBar`, and `MediaList` live in `/components`.
-- **Persistence**: `expo-sqlite` stores entries on-device.
+- **Persistence**: `expo-sqlite` stores entries on-device. The web build falls back to `localStorage`.
 - **Feature set**: create, filter, favorite, rate, open links, and delete media entries.
 
 ## Concept
@@ -16,11 +16,13 @@ Imagine a “lux media encyclopedia” for a single user. Each entry captures a 
 ## Running the Example
 
 ```bash
+cd examples/week-04-state-interaction
 npm install
 npx expo start
 ```
 
 Make sure `expo-sqlite` is available in your Expo SDK (it ships with the default Expo Go client).
+On web, Expo does not provide SQLite, so the example automatically switches to `localStorage`.
 
 ## Suggested Exercises
 
