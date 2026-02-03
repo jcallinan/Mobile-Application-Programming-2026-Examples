@@ -1,79 +1,176 @@
-import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Alert, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import * as SQLite from 'expo-sqlite';
+import FilterBar from './components/FilterBar';
+import MediaForm from './components/MediaForm';
+import MediaList from './components/MediaList';
+import type { MediaItem, NewMediaItem } from './types';
 
-export default function App() {
-  const [isJoined, setIsJoined] = useState(false);
-  const [questions, setQuestions] = useState(0);
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Workshop RSVP</Text>
-      <Text style={styles.status}>{isJoined ? 'You are attending.' : 'Tap to join.'}</Text>
-      <Text style={styles.counter}>Questions asked: {questions}</Text>
-      <Pressable
-        style={[styles.button, isJoined && styles.buttonActive]}
-        onPress={() => setIsJoined((value) => !value)}
-      >
-        <Text style={styles.buttonText}>{isJoined ? 'Leave' : 'Join'}</Text>
-      </Pressable>
-      <View style={styles.row}>
-        <Pressable
-          style={[styles.button, styles.buttonSecondary]}
-          onPress={() => setQuestions((value) => value + 1)}
-        >
-          <Text style={styles.buttonText}>Add Question</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.button, styles.buttonSecondary]}
-          onPress={() => setQuestions(0)}
-        >
-          <Text style={styles.buttonText}>Reset</Text>
-        </Pressable>
-      </View>
-    </View>
-  );
-}
+const db = SQLite.openDatabase('lux_media.db');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#0f172a',
-    padding: 24,
+    backgroundColor: '#0b0b12',
   },
-  heading: {
-    color: '#fff',
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 12,
+    backgroundColor: '#12121c',
+    borderBottomWidth: 1,
+    borderBottomColor: '#2b2b3a',
+  },
+  title: {
     fontSize: 24,
-    marginBottom: 12,
+    fontWeight: '700',
+    color: '#f5f4ff',
   },
-  status: {
-    color: '#cbd5f5',
-    marginBottom: 8,
-  },
-  counter: {
-    color: '#e2e8f0',
-    marginBottom: 16,
-  },
-  button: {
-    backgroundColor: '#334155',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  buttonActive: {
-    backgroundColor: '#38bdf8',
-  },
-  buttonSecondary: {
-    backgroundColor: '#1e293b',
-  },
-  row: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '600',
+  subtitle: {
+    marginTop: 6,
+    color: '#b2b1c7',
   },
 });
+
+const migrateColumns = (columns: { statement: string }[]) => {
+  db.transaction((tx) => {
+    columns.forEach((column) => {
+      tx.executeSql(
+        column.statement,
+        [],
+        undefined,
+        () => true
+      );
+    });
+  });
+};
+
+export default function App() {
+  const [items, setItems] = useState<MediaItem[]>([]);
+  const [filter, setFilter] = useState('');
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+
+  useEffect(() => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          `CREATE TABLE IF NOT EXISTS media_items (
+            id INTEGER PRIMARY KEY NOT NULL,
+            title TEXT NOT NULL,
+            url TEXT NOT NULL,
+            category TEXT NOT NULL,
+            notes TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            rating INTEGER NOT NULL DEFAULT 3,
+            favorite INTEGER NOT NULL DEFAULT 0
+          );`
+        );
+      },
+      undefined,
+      () => {
+        migrateColumns([
+          {
+            statement: 'ALTER TABLE media_items ADD COLUMN rating INTEGER NOT NULL DEFAULT 3;',
+          },
+          {
+            statement: 'ALTER TABLE media_items ADD COLUMN favorite INTEGER NOT NULL DEFAULT 0;',
+          },
+        ]);
+        fetchItems();
+      }
+    );
+  }, []);
+
+  const fetchItems = () => {
+    db.transaction((tx) => {
+      tx.executeSql('SELECT * FROM media_items ORDER BY created_at DESC;', [], (_, { rows }) => {
+        setItems(rows._array as MediaItem[]);
+      });
+    });
+  };
+
+  const handleAdd = (item: NewMediaItem) => {
+    if (!item.title || !item.url) {
+      Alert.alert('Missing details', 'Please add both a title and a link.');
+      return;
+    }
+
+    const now = new Date().toISOString();
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO media_items (title, url, category, notes, created_at, rating, favorite) VALUES (?, ?, ?, ?, ?, ?, ?);',
+        [item.title, item.url, item.category, item.notes, now, item.rating, item.favorite],
+        () => {
+          fetchItems();
+        }
+      );
+    });
+  };
+
+  const handleDelete = (id: number) => {
+    db.transaction((tx) => {
+      tx.executeSql('DELETE FROM media_items WHERE id = ?;', [id], () => {
+        fetchItems();
+      });
+    });
+  };
+
+  const handleToggleFavorite = (item: MediaItem) => {
+    const nextValue = item.favorite ? 0 : 1;
+    db.transaction((tx) => {
+      tx.executeSql('UPDATE media_items SET favorite = ? WHERE id = ?;', [nextValue, item.id], () => {
+        fetchItems();
+      });
+    });
+  };
+
+  const handleUpdateRating = (item: MediaItem, rating: number) => {
+    db.transaction((tx) => {
+      tx.executeSql('UPDATE media_items SET rating = ? WHERE id = ?;', [rating, item.id], () => {
+        fetchItems();
+      });
+    });
+  };
+
+  const filteredItems = useMemo(() => {
+    const lowered = filter.trim().toLowerCase();
+    return items.filter((item) => {
+      if (showFavoritesOnly && !item.favorite) {
+        return false;
+      }
+      if (!lowered) {
+        return true;
+      }
+      return (
+        item.title.toLowerCase().includes(lowered) ||
+        item.category.toLowerCase().includes(lowered) ||
+        item.notes.toLowerCase().includes(lowered)
+      );
+    });
+  }, [filter, items, showFavoritesOnly]);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.header}>
+        <Text style={styles.title}>Lux Media Encyclopedia</Text>
+        <Text style={styles.subtitle}>
+          Capture links, notes, ratings, and favorites. SQLite keeps it all offline-ready.
+        </Text>
+      </View>
+      <MediaForm onSubmit={handleAdd} />
+      <FilterBar
+        filter={filter}
+        onChangeFilter={setFilter}
+        showFavoritesOnly={showFavoritesOnly}
+        onToggleFavorites={() => setShowFavoritesOnly((prev) => !prev)}
+      />
+      <MediaList
+        items={filteredItems}
+        onDelete={handleDelete}
+        onToggleFavorite={handleToggleFavorite}
+        onUpdateRating={handleUpdateRating}
+      />
+    </SafeAreaView>
+  );
+}
