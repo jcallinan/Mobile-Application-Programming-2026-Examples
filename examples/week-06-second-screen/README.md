@@ -28,7 +28,7 @@ Start the app:
 npx expo start
 ```
 
-## Suggested learning walkthrough
+## SWalkthrough
 
 1. Start from `App.tsx` and see how providers wrap navigation.
 2. Inspect `src/navigation/RootNavigator.tsx` for nested stacks + tabs.
