@@ -2,6 +2,8 @@ import { createContext, useContext, useMemo, useState } from 'react';
 
 const ShoppingListContext = createContext(null);
 
+const createId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
 export function ShoppingListProvider({ children }) {
   const [itemsByList, setItemsByList] = useState({
     default: [
@@ -19,7 +21,7 @@ export function ShoppingListProvider({ children }) {
           ...prev,
           [listId]: [
             ...(prev[listId] ?? []),
-            { id: crypto.randomUUID(), label, purchased: false },
+            { id: createId(), label, purchased: false },
           ],
         }));
       },
@@ -35,7 +37,11 @@ export function ShoppingListProvider({ children }) {
     [itemsByList]
   );
 
-  return <ShoppingListContext.Provider value={value}>{children}</ShoppingListContext.Provider>;
+  return (
+    <ShoppingListContext.Provider value={value}>
+      {children}
+    </ShoppingListContext.Provider>
+  );
 }
 
 export function useShoppingList() {

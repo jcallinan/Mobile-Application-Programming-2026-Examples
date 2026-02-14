@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "name": "shopping-list-context",
+    "slug": "shopping-list-context",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic"
+  }
+}
