@@ -7,8 +7,26 @@ const createId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 export function ShoppingListProvider({ children }) {
   const [itemsByList, setItemsByList] = useState({
     default: [
-      { id: '1', label: 'Milk', purchased: false },
-      { id: '2', label: 'Coffee beans', purchased: true },
+      {
+        id: '1',
+        label: 'Milk',
+        purchased: false,
+        dueDate: '2026-02-20',
+        priority: 'High',
+        category: 'Dairy',
+        quantity: 2,
+        notes: 'Prefer low-fat if available',
+      },
+      {
+        id: '2',
+        label: 'Coffee beans',
+        purchased: true,
+        dueDate: '2026-02-16',
+        priority: 'Medium',
+        category: 'General',
+        quantity: 1,
+        notes: 'Dark roast',
+      },
     ],
   });
 
@@ -16,12 +34,21 @@ export function ShoppingListProvider({ children }) {
     () => ({
       items: itemsByList.default ?? [],
       getItems: (listId = 'default') => itemsByList[listId] ?? [],
-      addItem: (label, listId = 'default') => {
+      addItem: (item, listId = 'default') => {
         setItemsByList((prev) => ({
           ...prev,
           [listId]: [
             ...(prev[listId] ?? []),
-            { id: createId(), label, purchased: false },
+            {
+              id: createId(),
+              purchased: false,
+              dueDate: '',
+              priority: 'Medium',
+              category: 'General',
+              quantity: 1,
+              notes: '',
+              ...item,
+            },
           ],
         }));
       },
