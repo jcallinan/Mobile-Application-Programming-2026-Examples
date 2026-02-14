@@ -3,26 +3,36 @@ import { createContext, useContext, useMemo, useState } from 'react';
 const ShoppingListContext = createContext(null);
 
 export function ShoppingListProvider({ children }) {
-  const [items, setItems] = useState([
-    { id: '1', label: 'Milk', purchased: false },
-    { id: '2', label: 'Coffee beans', purchased: true },
-  ]);
+  const [itemsByList, setItemsByList] = useState({
+    default: [
+      { id: '1', label: 'Milk', purchased: false },
+      { id: '2', label: 'Coffee beans', purchased: true },
+    ],
+  });
 
   const value = useMemo(
     () => ({
-      items,
-      addItem: (label) => {
-        setItems((prev) => [...prev, { id: crypto.randomUUID(), label, purchased: false }]);
+      items: itemsByList.default ?? [],
+      getItems: (listId = 'default') => itemsByList[listId] ?? [],
+      addItem: (label, listId = 'default') => {
+        setItemsByList((prev) => ({
+          ...prev,
+          [listId]: [
+            ...(prev[listId] ?? []),
+            { id: crypto.randomUUID(), label, purchased: false },
+          ],
+        }));
       },
-      toggleItem: (id) => {
-        setItems((prev) =>
-          prev.map((item) =>
+      toggleItem: (id, listId = 'default') => {
+        setItemsByList((prev) => ({
+          ...prev,
+          [listId]: (prev[listId] ?? []).map((item) =>
             item.id === id ? { ...item, purchased: !item.purchased } : item
-          )
-        );
+          ),
+        }));
       },
     }),
-    [items]
+    [itemsByList]
   );
 
   return <ShoppingListContext.Provider value={value}>{children}</ShoppingListContext.Provider>;
