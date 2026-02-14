@@ -12,23 +12,16 @@ React Native navigation architecture.
 - Shared state with Context across multiple screens
 - Master-detail flow (`ShoppingList` -> `ShoppingItemDetails`)
 
-## Run with current tooling
+## Run this example
+
+From this folder, install dependencies and start Expo:
 
 ```bash
-npx create-expo-app@latest week-06-navigation
-cd week-06-navigation
-npx expo install @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs react-native-screens react-native-safe-area-context
+npm install
+npm run start
 ```
 
-Then copy this folder's files into the generated Expo project root.
-
-Start the app:
-
-```bash
-npx expo start
-```
-
-## SWalkthrough
+## Walkthrough
 
 1. Start from `App.tsx` and see how providers wrap navigation.
 2. Inspect `src/navigation/RootNavigator.tsx` for nested stacks + tabs.
