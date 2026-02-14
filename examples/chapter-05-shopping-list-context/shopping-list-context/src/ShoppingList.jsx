@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useShoppingList } from './context/ShoppingListContext';
 
-export function ShoppingList() {
-  const { items, addItem, toggleItem } = useShoppingList();
+export function ShoppingList({ listId = 'default', title = 'Shopping List' }) {
+  const { getItems, addItem, toggleItem } = useShoppingList();
+  const items = getItems(listId);
   const [value, setValue] = useState('');
 
   const onSubmit = (event) => {
@@ -10,13 +11,13 @@ export function ShoppingList() {
     if (!value.trim()) {
       return;
     }
-    addItem(value.trim());
+    addItem(value.trim(), listId);
     setValue('');
   };
 
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', padding: 24 }}>
-      <h1>Shopping List</h1>
+      <h1>{title}</h1>
       <form onSubmit={onSubmit} style={{ display: 'flex', gap: 8 }}>
         <input
           value={value}
@@ -32,7 +33,7 @@ export function ShoppingList() {
               <input
                 type="checkbox"
                 checked={item.purchased}
-                onChange={() => toggleItem(item.id)}
+                onChange={() => toggleItem(item.id, listId)}
               />
               <span style={{ marginLeft: 8 }}>{item.label}</span>
             </label>
