@@ -1,7 +1,7 @@
 # Chapter 5: Shopping List with Context + Hooks
 
 This example shows a shopping list powered by React Context + hooks, updated
-for current tooling in **Feb 2026**.
+for current tooling.
 
 ## Run it quickly with modern React tooling
 
