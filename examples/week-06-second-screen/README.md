@@ -1,4 +1,4 @@
-# Week 6: Modern Navigation + Multi-Screen Apps (Expo, Feb 2026)
+# Week 6: Modern Navigation + Multi-Screen Apps
 
 This folder replaces the old state-switching demo with a realistic, modern
 React Native navigation architecture.
