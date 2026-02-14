@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "name": "week-06-second-screen",
+    "slug": "week-06-second-screen",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic"
+  }
+}
