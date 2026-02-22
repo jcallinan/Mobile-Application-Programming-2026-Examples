@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Week 7 Flexbox Layout",
+    "slug": "week-07-flexbox-layout",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
