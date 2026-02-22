@@ -74,10 +74,3 @@ npm run start
 ```
 
 You can then open Android, iOS, Expo Go, or Web from the Expo dev tools.
-
-## Suggested class activities
-
-- Convert the custom tab bar into a bottom nav bar layout.
-- Add a favorites row in the dashboard using wrapped chips.
-- Add pagination to book search results.
-- Save a successful login token locally (e.g., AsyncStorage).
