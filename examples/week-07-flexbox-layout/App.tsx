@@ -1,69 +1,54 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View } from 'react-native';
+import { ExampleTabBar } from './src/components/ExampleTabBar';
+import { ScreenContainer } from './src/components/ScreenContainer';
+import { SectionTitle } from './src/components/SectionTitle';
+import { BookDetailScreen } from './src/screens/BookDetailScreen';
+import { BookSearchScreen } from './src/screens/BookSearchScreen';
+import { DashboardScreen } from './src/screens/DashboardScreen';
+import { LoginExampleScreen } from './src/screens/LoginExampleScreen';
+import type { Book, ExampleRoute } from './src/types';
 
 export default function App() {
+  const [route, setRoute] = useState<ExampleRoute>('dashboard');
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+
+  function openRoute(nextRoute: ExampleRoute) {
+    setRoute(nextRoute);
+    setSelectedBook(null);
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Flexbox Dashboard</Text>
-      <View style={styles.row}>
-        <View style={styles.cardLarge}>
-          <Text style={styles.cardLabel}>Weekly Focus</Text>
-          <Text style={styles.cardValue}>12 hrs</Text>
-        </View>
-        <View style={styles.cardSmall}>
-          <Text style={styles.cardLabel}>Tasks</Text>
-          <Text style={styles.cardValue}>8</Text>
-        </View>
+    <ScreenContainer>
+      <SectionTitle
+        title="Week 7 · Flexbox Example App"
+        subtitle="Use the tabs below to switch between complete examples: dashboard, book search/detail, and login API demo."
+      />
+
+      <ExampleTabBar current={route} onSelect={openRoute} />
+
+      <View style={styles.content}>{route === 'dashboard' ? <DashboardScreen /> : null}</View>
+
+      <View style={styles.content}>
+        {route === 'bookSearch' && selectedBook === null ? (
+          <BookSearchScreen onSelectBook={setSelectedBook} />
+        ) : null}
+        {route === 'bookSearch' && selectedBook ? (
+          <BookDetailScreen book={selectedBook} onBack={() => setSelectedBook(null)} />
+        ) : null}
       </View>
-      <View style={styles.row}>
-        <View style={styles.cardSmall}>
-          <Text style={styles.cardLabel}>Labs</Text>
-          <Text style={styles.cardValue}>3</Text>
-        </View>
-        <View style={styles.cardLarge}>
-          <Text style={styles.cardLabel}>Next Deadline</Text>
-          <Text style={styles.cardValue}>Friday</Text>
-        </View>
-      </View>
-    </View>
+
+      <View style={styles.content}>{route === 'login' ? <LoginExampleScreen /> : null}</View>
+      <StatusBar style="light" />
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    backgroundColor: '#0f172a',
-  },
-  title: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: '700',
-    marginBottom: 16,
-  },
-  row: {
-    flexDirection: 'row',
-    gap: 16,
-    marginBottom: 16,
-  },
-  cardLarge: {
-    flex: 2,
-    backgroundColor: '#1e293b',
-    padding: 16,
-    borderRadius: 12,
-  },
-  cardSmall: {
-    flex: 1,
-    backgroundColor: '#334155',
-    padding: 16,
-    borderRadius: 12,
-  },
-  cardLabel: {
-    color: '#cbd5f5',
-    marginBottom: 8,
-  },
-  cardValue: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
+  content: {
+    backgroundColor: '#0b1220',
+    borderRadius: 14,
+    padding: 12,
   },
 });
