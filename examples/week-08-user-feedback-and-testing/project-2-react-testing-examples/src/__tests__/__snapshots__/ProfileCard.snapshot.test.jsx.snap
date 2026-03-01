@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProfileCard (snapshot test) > matches snapshot 1`] = `
+<div>
+  <article>
+    <h2>
+      Ada Lovelace
+    </h2>
+    <p>
+      Mobile Application Programming
+    </p>
+  </article>
+</div>
+`;
