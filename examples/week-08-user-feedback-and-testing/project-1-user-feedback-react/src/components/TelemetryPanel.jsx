@@ -10,7 +10,7 @@ export default function TelemetryPanel({ events, onClear, onDownload }) {
 
   return (
     <section className="card">
-      <h2>Telemetry (Learning Example)</h2>
+      <h2>Telemetry</h2>
       <p className="hint">
         This optional telemetry demo tracks anonymous usage events such as page views, feedback
         submissions, and external link clicks.
