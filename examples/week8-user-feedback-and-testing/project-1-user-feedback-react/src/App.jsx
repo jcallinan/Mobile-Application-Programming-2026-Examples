@@ -3,6 +3,37 @@ import FeedbackForm from './components/FeedbackForm';
 import FeedbackList from './components/FeedbackList';
 import { loadFeedback, saveFeedback } from './utils/storage';
 
+const feedbackChannels = [
+  {
+    title: 'Email the Developer',
+    description:
+      'Prefer writing a full message? Send details, screenshots, or ideas directly via email.',
+    actionLabel: 'Send Email',
+    href: 'mailto:developer@example.com?subject=Student%20Feedback%20Board%20Feedback',
+  },
+  {
+    title: 'Report a Bug',
+    description:
+      'Found something broken? Open an issue and include steps to reproduce the problem.',
+    actionLabel: 'Open Bug Form',
+    href: 'https://github.com/jcallinan/Mobile-Application-Programming-2026-Examples/issues/new?template=bug_report.md',
+  },
+  {
+    title: 'Request a Feature',
+    description:
+      'Have an idea for improvement? Share new feature suggestions with examples.',
+    actionLabel: 'Suggest Feature',
+    href: 'https://github.com/jcallinan/Mobile-Application-Programming-2026-Examples/issues/new?template=feature_request.md',
+  },
+  {
+    title: 'Quick Poll (Anonymous)',
+    description:
+      'Use a short survey for instant anonymous input when students are short on time.',
+    actionLabel: 'Open Poll Example',
+    href: 'https://forms.gle/example-feedback-form',
+  },
+];
+
 export default function App() {
   const [feedbackItems, setFeedbackItems] = useState(loadFeedback);
 
@@ -32,6 +63,26 @@ export default function App() {
       </section>
 
       <FeedbackForm onSubmit={addFeedback} />
+
+      <section className="card">
+        <h2>Other Ways to Share Feedback</h2>
+        <p className="hint">
+          Not everyone wants to use the in-app form. Offer multiple channels so students can
+          choose what feels easiest.
+        </p>
+        <ul className="channel-list">
+          {feedbackChannels.map((channel) => (
+            <li key={channel.title} className="channel-item">
+              <h3>{channel.title}</h3>
+              <p>{channel.description}</p>
+              <a href={channel.href} target="_blank" rel="noreferrer">
+                {channel.actionLabel}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <FeedbackList items={feedbackItems} />
     </main>
   );

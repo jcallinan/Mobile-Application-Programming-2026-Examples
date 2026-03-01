@@ -5,7 +5,9 @@ This mini project demonstrates how to:
 - solicit feedback from users via a form,
 - keep feedback in React state,
 - persist responses to `localStorage`,
-- display summary information (count + average rating).
+- display summary information (count + average rating),
+- provide alternative feedback channels (email, bug report, feature request, and quick poll links),
+- connect bug/feature links to GitHub issue templates in `.github/ISSUE_TEMPLATE`.
 
 ## Run
 
