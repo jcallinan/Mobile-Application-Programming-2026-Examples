@@ -57,6 +57,38 @@ body {
   cursor: pointer;
 }
 
+.hint {
+  color: #475569;
+}
+
+.channel-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.channel-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.channel-item h3,
+.channel-item p {
+  margin: 0;
+}
+
+.channel-item a {
+  width: fit-content;
+  text-decoration: none;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
 .feedback-list {
   list-style: none;
   padding: 0;
