@@ -7,7 +7,8 @@ This mini project demonstrates how to:
 - persist responses to `localStorage`,
 - display summary information (count + average rating),
 - provide alternative feedback channels (email, bug report, feature request, and quick poll links),
-- connect bug/feature links to GitHub issue templates in `.github/ISSUE_TEMPLATE`.
+- connect bug/feature links to GitHub issue templates in `.github/ISSUE_TEMPLATE`,
+- capture lightweight telemetry events (page view, submit, channel click) and export them as JSON for analysis.
 
 ## Run
 

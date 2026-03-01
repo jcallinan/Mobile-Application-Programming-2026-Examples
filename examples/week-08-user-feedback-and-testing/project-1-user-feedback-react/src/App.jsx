@@ -1,7 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import FeedbackForm from './components/FeedbackForm';
 import FeedbackList from './components/FeedbackList';
+import TelemetryPanel from './components/TelemetryPanel';
 import { loadFeedback, saveFeedback } from './utils/storage';
+import {
+  clearTelemetryEvents,
+  downloadTelemetry,
+  loadTelemetryEvents,
+  trackEvent,
+} from './utils/telemetry';
 
 const feedbackChannels = [
   {
@@ -36,6 +43,12 @@ const feedbackChannels = [
 
 export default function App() {
   const [feedbackItems, setFeedbackItems] = useState(loadFeedback);
+  const [telemetryEvents, setTelemetryEvents] = useState(loadTelemetryEvents);
+
+  useEffect(() => {
+    trackEvent('page_view', { page: 'student-feedback-board' });
+    setTelemetryEvents(loadTelemetryEvents());
+  }, []);
 
   const averageRating = useMemo(() => {
     if (feedbackItems.length === 0) return 0;
@@ -47,6 +60,34 @@ export default function App() {
     const updated = [newFeedback, ...feedbackItems];
     setFeedbackItems(updated);
     saveFeedback(updated);
+
+    trackEvent('feedback_submitted', {
+      rating: newFeedback.rating,
+      hasName: newFeedback.name !== 'Anonymous Student',
+      commentLength: newFeedback.comment.length,
+    });
+    setTelemetryEvents(loadTelemetryEvents());
+  };
+
+  const handleChannelClick = (channel) => {
+    trackEvent('feedback_channel_clicked', {
+      channelTitle: channel.title,
+      channelHref: channel.href,
+    });
+    setTelemetryEvents(loadTelemetryEvents());
+  };
+
+  const handleClearTelemetry = () => {
+    clearTelemetryEvents();
+    setTelemetryEvents([]);
+  };
+
+  const handleDownloadTelemetry = () => {
+    downloadTelemetry(telemetryEvents);
+    trackEvent('telemetry_exported', {
+      exportedCount: telemetryEvents.length,
+    });
+    setTelemetryEvents(loadTelemetryEvents());
   };
 
   return (
@@ -75,13 +116,24 @@ export default function App() {
             <li key={channel.title} className="channel-item">
               <h3>{channel.title}</h3>
               <p>{channel.description}</p>
-              <a href={channel.href} target="_blank" rel="noreferrer">
+              <a
+                href={channel.href}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => handleChannelClick(channel)}
+              >
                 {channel.actionLabel}
               </a>
             </li>
           ))}
         </ul>
       </section>
+
+      <TelemetryPanel
+        events={telemetryEvents}
+        onClear={handleClearTelemetry}
+        onDownload={handleDownloadTelemetry}
+      />
 
       <FeedbackList items={feedbackItems} />
     </main>
