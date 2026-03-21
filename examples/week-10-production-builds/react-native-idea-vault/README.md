@@ -42,6 +42,18 @@ npm install
 npm start
 ```
 
+`npm start` only starts the Metro bundler. It does **not** render the app in a browser, so opening `http://localhost:8081` will show Metro's default welcome page instead of the Idea Vault interface.
+
+To actually open the app, start Metro and then launch a native target:
+
+```bash
+npm run android
+# or
+npm run ios
+```
+
+If you specifically need a browser-based classroom demo, use the sibling Expo example in `../expo-idea-vault`.
+
 ## Debug build examples
 
 ### Android debug build
