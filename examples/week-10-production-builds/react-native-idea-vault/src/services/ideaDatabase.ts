@@ -1,17 +1,25 @@
-import SQLite from 'react-native-sqlite-storage';
+import SQLite, { type ResultSet, type SQLiteDatabase, type Transaction } from 'react-native-sqlite-storage';
 
 import { ideaTemplates } from '../data/ideaTemplates';
 import type { DraftIdea, IdeaRecord } from '../types';
 import { sanitizeIdeaDraft } from '../utils/ideaBackup';
 
-const database = SQLite.openDatabase({
-  name: 'react-native-idea-vault.db',
-  location: 'default',
-});
+const database: SQLiteDatabase = SQLite.openDatabase(
+  {
+    name: 'react-native-idea-vault.db',
+    location: 'default',
+  },
+  () => {
+    // Database opened successfully.
+  },
+  (error) => {
+    console.warn('Failed to open SQLite database.', error.message);
+  },
+);
 
 export function initializeIdeaDatabase(onComplete: () => void) {
   database.transaction(
-    (transaction) => {
+    (transaction: Transaction) => {
       transaction.executeSql(
         `CREATE TABLE IF NOT EXISTS ideas (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +35,7 @@ export function initializeIdeaDatabase(onComplete: () => void) {
         );`,
       );
 
-      transaction.executeSql('SELECT COUNT(*) as count FROM ideas', [], (_tx, result) => {
+      transaction.executeSql('SELECT COUNT(*) as count FROM ideas', [], (_tx: Transaction, result: ResultSet) => {
         const count = result.rows.item(0).count as number;
         if (count === 0) {
           ideaTemplates.forEach((template) => {
@@ -57,11 +65,11 @@ export function initializeIdeaDatabase(onComplete: () => void) {
 }
 
 export function loadIdeas(onComplete: (ideas: IdeaRecord[]) => void) {
-  database.transaction((transaction) => {
+  database.transaction((transaction: Transaction) => {
     transaction.executeSql(
       'SELECT * FROM ideas ORDER BY rating DESC, updatedAt DESC',
       [],
-      (_tx, result) => {
+      (_tx: Transaction, result: ResultSet) => {
         const nextIdeas: IdeaRecord[] = [];
         for (let index = 0; index < result.rows.length; index += 1) {
           nextIdeas.push(result.rows.item(index) as IdeaRecord);
@@ -75,7 +83,7 @@ export function loadIdeas(onComplete: (ideas: IdeaRecord[]) => void) {
 export function insertIdea(input: DraftIdea, onComplete?: () => void) {
   const idea = sanitizeIdeaDraft(input);
   database.transaction(
-    (transaction) => {
+    (transaction: Transaction) => {
       transaction.executeSql(
         `INSERT INTO ideas (title, notes, rating, audience, moat, channel, nextExperiment, pricing, updatedAt)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -99,7 +107,7 @@ export function insertIdea(input: DraftIdea, onComplete?: () => void) {
 
 export function deleteIdea(id: number, onComplete?: () => void) {
   database.transaction(
-    (transaction) => {
+    (transaction: Transaction) => {
       transaction.executeSql('DELETE FROM ideas WHERE id = ?', [id]);
     },
     undefined,
@@ -109,7 +117,7 @@ export function deleteIdea(id: number, onComplete?: () => void) {
 
 export function replaceIdeas(ideas: DraftIdea[], onComplete?: () => void) {
   database.transaction(
-    (transaction) => {
+    (transaction: Transaction) => {
       transaction.executeSql('DELETE FROM ideas');
       ideas.forEach((input) => {
         const idea = sanitizeIdeaDraft(input);
