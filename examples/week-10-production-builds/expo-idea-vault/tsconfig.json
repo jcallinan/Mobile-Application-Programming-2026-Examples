@@ -9,5 +9,5 @@
     "strict": true,
     "target": "ES2021"
   },
-  "include": ["App.tsx"]
+  "include": ["App.tsx", "src/**/*"]
 }

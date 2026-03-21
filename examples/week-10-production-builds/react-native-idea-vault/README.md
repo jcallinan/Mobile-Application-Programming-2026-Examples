@@ -12,10 +12,23 @@ This React Native CLI project solves the same business-idea problem as the Expo 
   - audience
   - competitive moat
   - acquisition channel
+  - pricing model
   - next experiment
-- Import a JSON backup into SQLite.
-- Export the current database to a JSON file.
-- Show a small `React Native` label in the UI.
+- Add data several ways:
+  - manual form entry
+  - starter templates
+  - duplicate an existing idea back into the form
+  - import a JSON backup
+- Export the current database as JSON.
+- Show a small `React Native` label in the interface.
+
+## Local storage/import/export verification notes
+
+The local-data workflow is separated into focused modules:
+
+- `src/services/ideaDatabase.ts` manages SQLite table creation, inserts, loads, deletes, and full replacement on import.
+- `src/services/ideaTransfer.ts` handles file picker import and JSON export.
+- `src/utils/ideaBackup.ts` sanitizes backups and ensures the imported file is an array before data replacement.
 
 ## Install
 
