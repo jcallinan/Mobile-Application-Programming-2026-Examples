@@ -1,50 +1,44 @@
 # React Native Idea Vault
 
-This React Native CLI project solves the same business-idea problem as the Expo version, but with a brighter card-based interface so students can clearly compare the two apps.
+React Native Idea Vault is the React Native CLI companion to the Expo example in week 10. It teaches the same local-first idea workflow while giving students a more native-toolchain-oriented project structure and release conversation.
 
-## Features
+## What this project demonstrates
 
-- Store ideas in a local SQLite database.
-- Track:
-  - title
-  - notes
-  - rating from 1 to 5
-  - audience
-  - competitive moat
-  - acquisition channel
-  - pricing model
-  - next experiment
-- Add data several ways:
-  - manual form entry
-  - starter templates
-  - duplicate an existing idea back into the form
-  - import a JSON backup
-- Export the current database as JSON.
-- Show a small `React Native` label in the interface.
+- A multi-screen-scale React Native CLI application with modular source organization.
+- Local persistence with SQLite through native libraries.
+- JSON backup import/export patterns for restore and recovery scenarios.
+- The distinction between Metro, debug builds, and release builds.
+- How a product can stay maintainable even when it requires more native integration.
 
-## Local storage/import/export verification notes
+## Feature summary
 
-The local-data workflow is separated into focused modules:
+Users can:
 
-- `src/services/ideaDatabase.ts` manages SQLite table creation, inserts, loads, deletes, and full replacement on import.
-- `src/services/ideaTransfer.ts` handles file picker import and JSON export.
-- `src/utils/ideaBackup.ts` sanitizes backups and ensures the imported file is an array before data replacement.
+- pick a starter template or begin from scratch
+- refine product notes, audience, moat, channel, pricing, and next experiment
+- assign a 1-to-5 rating
+- save ideas locally
+- duplicate stored ideas back into the draft form
+- export a JSON backup
+- import a JSON backup
 
-## Install
+## Documentation map
+
+This project now includes a full documentation set in `docs/`:
+
+1. [`docs/01-OVERVIEW.MD`](docs/01-OVERVIEW.MD) — architecture, responsibilities, and release framing
+2. [`docs/02-DEVELOPMENT-WORKFLOW.MD`](docs/02-DEVELOPMENT-WORKFLOW.MD) — install, Metro, native run, and validation guidance
+3. [`docs/03-RELEASE-OPERATIONS.MD`](docs/03-RELEASE-OPERATIONS.MD) — Android/iOS release notes and operational checklist
+4. [`docs/04-DEMO-AND-SCREENSHOTS.MD`](docs/04-DEMO-AND-SCREENSHOTS.MD) — screenshot evidence, demo script, and environment notes
+
+## Quick start
 
 ```bash
 npm install
-```
-
-## Run Metro
-
-```bash
 npm start
 ```
 
-`npm start` only starts the Metro bundler. It does **not** render the app in a browser, so opening `http://localhost:8081` will show Metro's default welcome page instead of the Idea Vault interface.
-
-To actually open the app, start Metro and then launch a native target:
+To launch the native app after Metro is running:
 
 ```bash
 npm run android
@@ -52,28 +46,22 @@ npm run android
 npm run ios
 ```
 
-If you specifically need a browser-based classroom demo, use the sibling Expo example in `../expo-idea-vault`.
+## Type-checking
 
-## Debug build examples
+```bash
+npm run typecheck
+```
 
-### Android debug build
+## Build examples
+
+### Debug
 
 ```bash
 npx react-native run-android
-cd android && ./gradlew assembleDebug
-```
-
-### iOS debug build
-
-```bash
 npx react-native run-ios
 ```
 
-You can also open `ios/ReactNativeIdeaVault.xcworkspace` in Xcode and run the Debug scheme.
-
-## Production build examples
-
-### Android release APK / AAB
+### Android release
 
 ```bash
 cd android
@@ -81,34 +69,25 @@ cd android
 ./gradlew bundleRelease
 ```
 
-### iOS release build
+### iOS release
 
 ```bash
 npx react-native build-ios --mode Release
 ```
 
-Or archive from Xcode using the Release configuration.
+## Key implementation areas
 
-## Release checklist examples
+- `src/screens/IdeaLabScreen.tsx` coordinates the workflow.
+- `src/components/` contains the card-based UI building blocks.
+- `src/services/ideaDatabase.ts` handles SQLite reads and writes.
+- `src/services/ideaTransfer.ts` handles JSON import/export operations.
+- `src/utils/ideaBackup.ts` validates imported backup content.
 
-- Add a signing key for Android release builds.
-- Configure release signing in `android/app/build.gradle`.
-- Configure iOS signing/capabilities in Xcode.
-- Test import/export on a physical device before shipping.
-- Verify that the JSON backup can be restored after reinstalling the app.
+## Best use in class
 
-## Import/export format
+Use this project when you want to emphasize:
 
-```json
-[
-  {
-    "title": "Meal-prep delivery for finals week",
-    "notes": "Offer focused exam-week meal bundles.",
-    "rating": 5,
-    "audience": "College students",
-    "moat": "Fast campus delivery",
-    "channel": "Instagram reels",
-    "nextExperiment": "Waitlist landing page"
-  }
-]
-```
+- the role of Metro in React Native CLI development
+- native dependency tradeoffs compared with Expo
+- SQLite integration in a more direct native context
+- how release procedures become more explicit outside the managed Expo workflow
