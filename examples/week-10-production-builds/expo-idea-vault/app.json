@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Expo Idea Vault",
+    "slug": "expo-idea-vault",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "edu.examples.expoideavault"
+    },
+    "plugins": [
+      "expo-sqlite"
+    ]
+  }
+}
