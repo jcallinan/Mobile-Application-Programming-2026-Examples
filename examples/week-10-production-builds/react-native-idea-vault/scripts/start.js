@@ -3,6 +3,7 @@
 const { spawn } = require('node:child_process');
 
 const extraArgs = process.argv.slice(2);
+const isWindows = process.platform === 'win32';
 
 console.log('\nReact Native Idea Vault');
 console.log('Metro is the JavaScript bundler for this native app.');
@@ -11,11 +12,13 @@ console.log('Launch the app on a device or simulator with `npm run android` or `
 console.log('If you need a browser-based version for class demos, use `../expo-idea-vault` instead.\n');
 
 const metro = spawn(
-  process.platform === 'win32' ? 'npx.cmd' : 'npx',
+  isWindows ? 'npx.cmd' : 'npx',
   ['react-native', 'start', ...extraArgs],
   {
     stdio: 'inherit',
-    shell: false,
+    // Windows cannot directly spawn `.cmd` files without a shell.
+    // Using the shell only there keeps macOS/Linux behavior unchanged.
+    shell: isWindows,
   },
 );
 
