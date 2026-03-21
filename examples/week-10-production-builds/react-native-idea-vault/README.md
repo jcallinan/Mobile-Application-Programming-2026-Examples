@@ -1,19 +1,11 @@
 # React Native Idea Vault
 
-This React Native CLI example mirrors the Expo app's functionality while using a distinct visual design and a more professional folder structure. The project separates screen composition, reusable components, starter data, SQLite access, and backup logic inside `src/`.
-
-## Project structure
-
-- `App.tsx`: small app entry point.
-- `src/screens/`: screen-level composition.
-- `src/components/`: reusable UI building blocks.
-- `src/data/`: starter templates and empty draft state.
-- `src/services/`: local SQLite and import/export services.
-- `src/utils/`: backup parsing, sanitizing, and duplication helpers.
+This React Native CLI project solves the same business-idea problem as the Expo version, but with a brighter card-based interface so students can clearly compare the two apps.
 
 ## Features
 
-- Store ideas in a local SQLite database with:
+- Store ideas in a local SQLite database.
+- Track:
   - title
   - notes
   - rating from 1 to 5
@@ -65,6 +57,8 @@ cd android && ./gradlew assembleDebug
 npx react-native run-ios
 ```
 
+You can also open `ios/ReactNativeIdeaVault.xcworkspace` in Xcode and run the Debug scheme.
+
 ## Production build examples
 
 ### Android release APK / AAB
@@ -81,6 +75,16 @@ cd android
 npx react-native build-ios --mode Release
 ```
 
+Or archive from Xcode using the Release configuration.
+
+## Release checklist examples
+
+- Add a signing key for Android release builds.
+- Configure release signing in `android/app/build.gradle`.
+- Configure iOS signing/capabilities in Xcode.
+- Test import/export on a physical device before shipping.
+- Verify that the JSON backup can be restored after reinstalling the app.
+
 ## Import/export format
 
 ```json
@@ -92,7 +96,6 @@ npx react-native build-ios --mode Release
     "audience": "College students",
     "moat": "Fast campus delivery",
     "channel": "Instagram reels",
-    "pricing": "$39 weekly pack",
     "nextExperiment": "Waitlist landing page"
   }
 ]

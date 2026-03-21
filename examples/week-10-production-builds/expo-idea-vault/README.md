@@ -16,6 +16,12 @@ This Expo app is a more professional example of a local-first product idea track
 - Store ideas in a local SQLite database with:
   - title
   - problem
+This Expo app helps a student or founder track potential business ideas in a local SQLite database.
+
+## Features
+
+- Create idea records with:
+  - title
   - notes
   - rating from 1 to 5
   - target market
@@ -37,6 +43,10 @@ The app's storage workflow is organized into dedicated services:
 - `src/services/ideaDatabase.ts` initializes and writes to the local SQLite database.
 - `src/services/ideaTransfer.ts` imports JSON backups and exports JSON backups.
 - `src/utils/ideaBackup.ts` sanitizes records and verifies the backup shape before replacing the database.
+- Persist data locally with `expo-sqlite`.
+- Import a JSON backup into the database.
+- Export the current database to a JSON file.
+- Show a small `Expo` tag in the interface so students can quickly identify the stack.
 
 ## Install
 
@@ -50,6 +60,8 @@ npm install
 npm run start
 ```
 
+Open the app in Expo Go or a simulator.
+
 ## Debug build examples
 
 ### Android debug flow
@@ -58,17 +70,23 @@ npm run start
 npx expo run:android
 ```
 
+This generates the native Android project locally and installs a debug build.
+
 ### iOS debug flow
 
 ```bash
 npx expo run:ios
 ```
 
+This generates the native iOS project locally and runs a debug build in the simulator.
+
 ### Internal preview build with EAS
 
 ```bash
 eas build --platform android --profile preview
 ```
+
+That profile is defined in `eas.json` and is useful for a development client/internal test build.
 
 ## Production build examples
 
@@ -93,6 +111,8 @@ eas submit --platform ios --profile production
 
 ## Import/export format
 
+The import/export feature uses a JSON array of idea objects. Example:
+
 ```json
 [
   {
@@ -107,3 +127,9 @@ eas submit --platform ios --profile production
   }
 ]
 ```
+
+## Production build talking points
+
+- Expo reduces native setup friction.
+- EAS profiles make preview and production builds easy to explain.
+- Import/export is useful for backups before releasing a production app.
