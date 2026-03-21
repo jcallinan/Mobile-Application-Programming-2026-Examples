@@ -1,135 +1,90 @@
 # Expo Idea Vault
 
-This Expo app is a more professional example of a local-first product idea tracker. It uses a `src/` folder, separates the screen, components, data helpers, SQLite service, and import/export service, and is designed to show students how an app can evolve from development to production.
+Expo Idea Vault is a polished, local-first teaching example for week 10. The app demonstrates how to move from classroom-friendly development flows to production-minded build, backup, and release practices while keeping the codebase approachable for students.
 
-## Project structure
+## What this project demonstrates
 
-- `App.tsx`: small app entry point.
-- `src/screens/`: screen-level composition.
-- `src/components/`: reusable UI building blocks.
-- `src/data/`: starter templates and empty draft state.
-- `src/services/`: local database and import/export logic.
-- `src/utils/`: backup parsing, sanitizing, and duplication helpers.
+- A feature-complete mobile workflow built with Expo and React Native.
+- Local persistence using `expo-sqlite` for browser/device-friendly storage.
+- Structured separation between screens, components, services, data, and utilities.
+- Backup import/export using JSON so learners can reason about persistence and recovery.
+- Development, preview, and production build workflows that align with EAS.
 
-## Features
+## Feature summary
 
-- Store ideas in a local SQLite database with:
-  - title
-  - problem
-This Expo app helps a student or founder track potential business ideas in a local SQLite database.
+Users can:
 
-## Features
+- start from a blank draft or choose a starter template
+- refine an idea with title, problem, notes, market, revenue model, next step, and contact details
+- rate ideas from 1 to 5
+- save ideas locally
+- duplicate an existing idea back into the draft form
+- import a JSON backup
+- export a JSON backup
 
-- Create idea records with:
-  - title
-  - notes
-  - rating from 1 to 5
-  - target market
-  - revenue model
-  - next validation step
-  - best contact or lead
-- Add data several ways:
-  - manual form entry
-  - quick-add templates
-  - duplicate an existing saved idea back into the draft form
-  - import a JSON backup
-- Export the current database as JSON.
-- Show a small `Expo` label in the interface.
+## Documentation map
 
-## Local storage/import/export verification notes
+This project now includes a full documentation set in `docs/`:
 
-The app's storage workflow is organized into dedicated services:
+1. [`docs/01-OVERVIEW.MD`](docs/01-OVERVIEW.MD) — architecture, responsibilities, and learning outcomes
+2. [`docs/02-DEVELOPMENT-WORKFLOW.MD`](docs/02-DEVELOPMENT-WORKFLOW.MD) — install, run, debug, and classroom workflows
+3. [`docs/03-RELEASE-OPERATIONS.MD`](docs/03-RELEASE-OPERATIONS.MD) — build, release, QA, and operational guidance
+4. [`docs/04-DEMO-AND-SCREENSHOTS.MD`](docs/04-DEMO-AND-SCREENSHOTS.MD) — demo narrative, screenshots, and verification notes
 
-- `src/services/ideaDatabase.ts` initializes and writes to the local SQLite database.
-- `src/services/ideaTransfer.ts` imports JSON backups and exports JSON backups.
-- `src/utils/ideaBackup.ts` sanitizes records and verifies the backup shape before replacing the database.
-- Persist data locally with `expo-sqlite`.
-- Import a JSON backup into the database.
-- Export the current database to a JSON file.
-- Show a small `Expo` tag in the interface so students can quickly identify the stack.
-
-## Install
+## Quick start
 
 ```bash
 npm install
-```
-
-## Run in development
-
-```bash
 npm run start
 ```
 
-Open the app in Expo Go or a simulator.
+To open the browser-based preview used for classroom demos:
 
-## Debug build examples
+```bash
+npx expo start --web
+```
 
-### Android debug flow
+## Type-checking
+
+```bash
+npm run typecheck
+```
+
+## Build examples
+
+### Local native debug builds
 
 ```bash
 npx expo run:android
-```
-
-This generates the native Android project locally and installs a debug build.
-
-### iOS debug flow
-
-```bash
 npx expo run:ios
 ```
 
-This generates the native iOS project locally and runs a debug build in the simulator.
-
-### Internal preview build with EAS
+### EAS preview build
 
 ```bash
 eas build --platform android --profile preview
 ```
 
-That profile is defined in `eas.json` and is useful for a development client/internal test build.
-
-## Production build examples
-
-### Android production build
+### EAS production builds
 
 ```bash
 eas build --platform android --profile production
-```
-
-### iOS production build
-
-```bash
 eas build --platform ios --profile production
 ```
 
-### Submit production build
+## Key implementation areas
 
-```bash
-eas submit --platform android --profile production
-eas submit --platform ios --profile production
-```
+- `src/screens/IdeaVaultScreen.tsx` coordinates the user workflow.
+- `src/components/` contains reusable UI sections.
+- `src/services/ideaDatabase.ts` abstracts persistence.
+- `src/services/ideaTransfer.ts` handles backup import/export.
+- `src/utils/ideaBackup.ts` sanitizes and validates backup payloads.
 
-## Import/export format
+## Best use in class
 
-The import/export feature uses a JSON array of idea objects. Example:
+Use this app when you want students to compare:
 
-```json
-[
-  {
-    "title": "Campus laundry pickup",
-    "problem": "Students dislike carrying laundry across campus.",
-    "notes": "Offer same-day pickup in residence halls.",
-    "rating": 4,
-    "market": "Dorm students",
-    "revenueModel": "Per order fee",
-    "nextStep": "Survey one dorm floor",
-    "contact": "housing@example.edu"
-  }
-]
-```
-
-## Production build talking points
-
-- Expo reduces native setup friction.
-- EAS profiles make preview and production builds easy to explain.
-- Import/export is useful for backups before releasing a production app.
+- a clean Expo-first development experience
+- a local-first data workflow
+- the difference between debug and production build pipelines
+- how modular folder structure improves maintainability in larger React Native projects
