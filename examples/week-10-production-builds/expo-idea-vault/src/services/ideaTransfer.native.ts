@@ -1,9 +1,22 @@
-import * as DocumentPicker from 'expo-document-picker';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 import type { DraftIdea, IdeaRecord } from '../types';
 import { parseIdeasFromBackup, serializeIdeasForExport } from '../utils/ideaBackup';
+
+type ExpoDocumentPickerModule = typeof import('expo-document-picker');
+
+async function loadDocumentPicker(): Promise<ExpoDocumentPickerModule> {
+  try {
+    return require('expo-document-picker') as ExpoDocumentPickerModule;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+
+    throw new Error(
+      `Import Backup requires expo-document-picker in a development build or standalone app. ${message}`,
+    );
+  }
+}
 
 export async function exportIdeas(ideas: IdeaRecord[]) {
   const file = new File(Paths.cache, 'expo-idea-vault-export.json');
@@ -19,6 +32,7 @@ export async function exportIdeas(ideas: IdeaRecord[]) {
 }
 
 export async function importIdeas(): Promise<DraftIdea[] | null> {
+  const DocumentPicker = await loadDocumentPicker();
   const result = await DocumentPicker.getDocumentAsync({
     copyToCacheDirectory: true,
     type: 'application/json',
