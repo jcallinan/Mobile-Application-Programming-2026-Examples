@@ -38,6 +38,12 @@ npm install
 npm start
 ```
 
+This example now includes the native `android/` and `ios/` project folders required by the React Native CLI. You should run the native commands directly from this project root; `npx react-native eject` is not part of the React Native CLI workflow for this app.
+
+The Android wrapper jar is downloaded automatically the first time you run `android/gradlew` or a React Native Android command that invokes it, so the repository can stay text-only.
+
+This sample keeps React Native's new architecture disabled by default because the generated native build paths can exceed Windows path-length limits for autolinked libraries such as `react-native-share`.
+
 To launch the native app after Metro is running:
 
 ```bash
