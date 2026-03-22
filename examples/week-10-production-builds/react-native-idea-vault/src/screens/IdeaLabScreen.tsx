@@ -66,7 +66,9 @@ export function IdeaLabScreen() {
   const handleExport = async () => {
     try {
       const path = await exportIdeas(ideas);
-      Alert.alert('Export ready', `Backup saved to ${path}`);
+      if (path.indexOf('/Download') === -1) {
+        Alert.alert('Export ready', `Backup saved to ${path}`);
+      }
     } catch (error) {
       Alert.alert('Export failed', error instanceof Error ? error.message : 'Unknown export error.');
     }
