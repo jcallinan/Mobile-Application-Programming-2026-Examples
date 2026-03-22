@@ -1,4 +1,4 @@
-import DocumentPicker from 'react-native-document-picker';
+import { keepLocalCopy, pick, types } from '@react-native-documents/picker';
 import RNFS from 'react-native-fs';
 import { Share } from 'react-native';
 
@@ -19,12 +19,25 @@ export async function exportIdeas(ideas: IdeaRecord[]) {
 }
 
 export async function importIdeas(): Promise<DraftIdea[]> {
-  const result = await DocumentPicker.pickSingle({
-    type: [DocumentPicker.types.plainText, 'application/json'],
-    copyTo: 'documentDirectory',
+  const [pickedFile] = await pick({
+    type: [types.plainText, types.json],
   });
 
-  const filePath = result.fileCopyUri?.replace('file://', '') ?? result.uri.replace('file://', '');
+  const [localCopy] = await keepLocalCopy({
+    destination: 'documentDirectory',
+    files: [
+      {
+        uri: pickedFile.uri,
+        fileName: pickedFile.name ?? 'react-native-idea-vault-import.json',
+      },
+    ],
+  });
+
+  if (localCopy.status !== 'success') {
+    throw new Error(`Failed to copy imported file locally: ${localCopy.copyError}`);
+  }
+
+  const filePath = localCopy.localUri.replace('file://', '');
   const content = await RNFS.readFile(filePath, 'utf8');
   return parseIdeasFromBackup(content);
 }
