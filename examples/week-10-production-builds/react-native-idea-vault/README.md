@@ -42,8 +42,6 @@ This example now includes the native `android/` and `ios/` project folders requi
 
 The Android wrapper jar is downloaded automatically the first time you run `android/gradlew` or a React Native Android command that invokes it, so the repository can stay text-only.
 
-This sample keeps React Native's new architecture disabled by default because the generated native build paths can exceed Windows path-length limits for autolinked libraries such as `react-native-share`.
-
 To launch the native app after Metro is running:
 
 ```bash
