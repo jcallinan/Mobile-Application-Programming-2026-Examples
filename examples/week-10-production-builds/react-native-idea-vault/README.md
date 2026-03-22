@@ -38,19 +38,19 @@ npm start
 
 ## Android environment setup
 
-Before running Android builds, point React Native and Gradle at a valid Android SDK installation. `ANDROID_SDK_ROOT` must reference an existing SDK directory or Gradle will stop before Kotlin compilation starts.
+Before running Android builds, point React Native and Gradle at a valid Android SDK installation. `ANDROID_SDK_ROOT` must reference an existing SDK directory or Gradle will stop before Kotlin compilation starts, so verify this path on your machine:
 
 ### Windows (PowerShell)
 
 ```powershell
-$env:ANDROID_SDK_ROOT = "$env:LOCALAPPDATA\Android\Sdk"
+$env:ANDROID_SDK_ROOT = "X:\Android-SDK"
 $env:PATH = "$env:ANDROID_SDK_ROOT\platform-tools;$env:ANDROID_SDK_ROOT\emulator;$env:PATH"
 ```
 
 To persist it for future shells, add the same value in **System Properties → Environment Variables** or run:
 
 ```powershell
-setx ANDROID_SDK_ROOT "%LOCALAPPDATA%\Android\Sdk"
+setx ANDROID_SDK_ROOT "X:\Android-SDK"
 ```
 
 ### macOS / Linux
