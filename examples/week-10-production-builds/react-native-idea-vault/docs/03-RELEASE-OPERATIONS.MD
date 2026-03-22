@@ -6,6 +6,8 @@ This project is designed to support a serious discussion about what changes when
 
 ## Debug vs. release
 
+Because this is a React Native CLI example, the native Android and iOS projects live in-repo and are part of the release surface area.
+
 ### Debug builds
 
 Use debug builds when you need quick developer feedback and easier troubleshooting:
