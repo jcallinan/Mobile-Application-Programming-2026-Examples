@@ -49,8 +49,6 @@ The UI is intentionally brighter and more card-driven than the Expo version. Thi
 
 ## Product flow
 
-A strong demo sequence is:
-
 1. inspect seeded records
 2. load a template into the draft form
 3. adjust title or positioning details
