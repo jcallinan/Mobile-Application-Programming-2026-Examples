@@ -26,10 +26,8 @@ Users can:
 
 This project now includes a full documentation set in `docs/`:
 
-1. [`docs/01-OVERVIEW.MD`](docs/01-OVERVIEW.MD) — architecture, responsibilities, and release framing
-2. [`docs/02-DEVELOPMENT-WORKFLOW.MD`](docs/02-DEVELOPMENT-WORKFLOW.MD) — install, Metro, native run, and validation guidance
-3. [`docs/03-RELEASE-OPERATIONS.MD`](docs/03-RELEASE-OPERATIONS.MD) — Android/iOS release notes and operational checklist
-4. [`docs/04-DEMO-AND-SCREENSHOTS.MD`](docs/04-DEMO-AND-SCREENSHOTS.MD) — screenshot evidence, demo script, and environment notes
+1. [`docs/OVERVIEW.MD`](docs/OVERVIEW.MD) — architecture, responsibilities, and release framing
+2. [`docs/RELEASE-OPERATIONS.MD`](docs/RELEASE-OPERATIONS.MD) — Android/iOS release notes and operational checklist
 
 ## Quick start
 
