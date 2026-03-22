@@ -18,6 +18,10 @@ That distinction is important in class because learners often assume the Metro U
 
 ## Launch the app on a target
 
+This repository already contains the native `android/` and `ios/` folders expected by the React Native CLI, so no extra eject or prebuild step is needed.
+
+On Android, the Gradle wrapper jar is fetched automatically on first use if it is not already present locally.
+
 ### Android
 
 ```bash
@@ -29,6 +33,8 @@ npm run android
 ```bash
 npm run ios
 ```
+
+If you see `Android project not found`, confirm you are running the command from this directory and that the native folders were checked out with the project.
 
 ## Type-checking
 

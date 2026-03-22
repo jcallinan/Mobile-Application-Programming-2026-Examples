@@ -1,5 +1,8 @@
 .DS_STORE
 node_modules
+android/.gradle
+android/app/debug.keystore
+android/gradle/wrapper/gradle-wrapper.jar
 scripts/flow/*/.flowconfig
 .flowconfig
 *~
