@@ -36,6 +36,47 @@ npm install
 npm start
 ```
 
+## Android environment setup
+
+Before running Android builds, point React Native and Gradle at a valid Android SDK installation. `ANDROID_SDK_ROOT` must reference an existing SDK directory or Gradle will stop before Kotlin compilation starts.
+
+### Windows (PowerShell)
+
+```powershell
+$env:ANDROID_SDK_ROOT = "$env:LOCALAPPDATA\Android\Sdk"
+$env:PATH = "$env:ANDROID_SDK_ROOT\platform-tools;$env:ANDROID_SDK_ROOT\emulator;$env:PATH"
+```
+
+To persist it for future shells, add the same value in **System Properties → Environment Variables** or run:
+
+```powershell
+setx ANDROID_SDK_ROOT "%LOCALAPPDATA%\Android\Sdk"
+```
+
+### macOS / Linux
+
+```bash
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+export PATH="$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$PATH"
+```
+
+You can also create `android/local.properties` with `sdk.dir=/absolute/path/to/Android/Sdk`, but keeping `ANDROID_SDK_ROOT` set is the most reliable option for React Native CLI tools.
+
+## Running Metro and Android together
+
+If port `8081` is already in use, either stop the existing Metro process or pick a different port consistently for both commands:
+
+```bash
+npm start -- --port 8082
+npm run android -- --port 8082
+```
+
+If Metro is already running on the port you want, you can also skip starting a second packager process:
+
+```bash
+npm run android -- --no-packager --port 8081
+```
+
 This example now includes the native `android/` and `ios/` project folders required by the React Native CLI. You should run the native commands directly from this project root; `npx react-native eject` is not part of the React Native CLI workflow for this app.
 
 The Android wrapper jar is downloaded automatically the first time you run `android/gradlew` or a React Native Android command that invokes it, so the repository can stay text-only.
