@@ -8,22 +8,10 @@ Expo Idea Vault is a local-first mobile example built for teaching production-mi
 
 ### Product outcomes
 
-Students should understand how to build an app that:
-
 - persists meaningful user data locally
 - restores that data from a portable backup format
 - separates interface concerns from persistence and transfer logic
 - remains understandable as it grows beyond a single-file demo
-
-### Engineering outcomes
-
-Students should be able to explain:
-
-- why `App.tsx` stays intentionally small
-- why a screen component owns workflow composition
-- how reusable components reduce duplication
-- why persistence and import/export belong in dedicated services
-- how production build profiles differ from local debug flows
 
 ## Architectural summary
 

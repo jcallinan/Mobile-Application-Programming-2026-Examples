@@ -56,14 +56,3 @@ A browser preview is helpful, but native packaging remains a different environme
 ### Build reproducibility risk
 
 Production builds should use documented commands and stable package versions. Ad hoc release steps create avoidable confusion during grading, demos, or handoff.
-
-## Suggested release talk track
-
-When presenting this project, explain the release mindset in four stages:
-
-1. **Develop** quickly with Expo web or Expo Go.
-2. **Validate** the full workflow with local data and backup files.
-3. **Package** the app using the correct EAS build profile.
-4. **Review** what changed between a development run and a production build.
-
-This sequence helps students connect architecture decisions to real deployment practice.

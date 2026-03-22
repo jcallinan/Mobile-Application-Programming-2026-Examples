@@ -24,12 +24,6 @@ Use the browser preview when the goal is to discuss the UI, workflow, and archit
 npx expo start --web
 ```
 
-This path is ideal for:
-
-- projector demos
-- quick walkthroughs of the form and template flow
-- screen capture during documentation work
-- verifying layout changes rapidly
 
 ### Device-oriented development
 
@@ -41,7 +35,6 @@ npm run start
 
 ### Local native debug builds
 
-When you want students to see how Expo can generate native projects locally, use:
 
 ```bash
 npx expo run:android
@@ -54,7 +47,7 @@ npx expo run:ios
 2. Start the app with `npx expo start --web` for rapid feedback.
 3. Verify form editing, template loading, duplication, and local save behavior.
 4. Confirm backup export still succeeds after UI changes.
-5. Before release teaching, review the EAS profiles in `eas.json`.
+5. Review the EAS profiles in `eas.json`.
 
 ## Manual verification checklist
 
@@ -78,10 +71,3 @@ npx expo run:ios
 - confirm the `Expo` badge remains visible
 - confirm the dark theme remains legible on large classroom screens
 
-## Teaching notes
-
-This project is especially effective when you explain the tradeoff between convenience and control:
-
-- Expo accelerates setup and demo velocity.
-- Production conversations still matter even in a managed workflow.
-- Services and utilities help teams scale features without filling the screen component with implementation details.
