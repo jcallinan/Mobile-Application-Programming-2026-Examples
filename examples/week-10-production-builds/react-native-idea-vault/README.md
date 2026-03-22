@@ -87,11 +87,3 @@ npx react-native build-ios --mode Release
 - `src/services/ideaTransfer.ts` handles JSON import/export operations.
 - `src/utils/ideaBackup.ts` validates imported backup content.
 
-## Best use in class
-
-Use this project when you want to emphasize:
-
-- the role of Metro in React Native CLI development
-- native dependency tradeoffs compared with Expo
-- SQLite integration in a more direct native context
-- how release procedures become more explicit outside the managed Expo workflow

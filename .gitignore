@@ -4,3 +4,4 @@ examples/week-07-flexbox-layout/package-lock.json
 examples/week8-user-feedback-and-testing/project-1-user-feedback-react/package-lock.json
 examples/week-08-user-feedback-and-testing/project-2-react-testing-examples/package-lock.json
 examples/week-10-production-builds/expo-idea-vault/package-lock.json
+/examples/week-10-production-builds/react-native-idea-vault/android/app/.cxx

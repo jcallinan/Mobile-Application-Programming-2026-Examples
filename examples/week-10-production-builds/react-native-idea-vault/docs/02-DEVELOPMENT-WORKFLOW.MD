@@ -75,7 +75,6 @@ npm run typecheck
 
 ## Classroom framing
 
-The most useful teaching message here is:
 
 - Metro is necessary infrastructure.
 - Native runtime launch is a separate step.

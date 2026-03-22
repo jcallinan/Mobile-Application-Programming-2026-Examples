@@ -2,7 +2,7 @@
 
 ## Release objective
 
-This project is designed to support a serious discussion about what changes when a mobile app moves beyond day-to-day development and into reproducible packaging, validation, and release.
+This project is designed to support a discussion about what changes when a mobile app moves beyond day-to-day development and into reproducible packaging, validation, and release.
 
 ## Debug vs. release
 
@@ -56,14 +56,10 @@ Import flows that replace the current data set should be treated carefully. The 
 
 A clean Metro startup is valuable, but it does not prove that Android or iOS release artifacts will package or behave correctly. Release confidence comes from native build verification.
 
-## Suggested release talk track
+## Suggested release track
 
 1. Start Metro and explain what it does.
 2. Run a debug build to show the iterative development loop.
 3. Move to Gradle or Xcode release commands.
 4. Explain signing, validation, and backup verification.
 5. Compare the extra native responsibility with the Expo example.
-
-## Instructor note
-
-This app is most effective when positioned as a contrast case: the product workflow remains familiar, but the operational path to a real release is more hands-on and explicit.

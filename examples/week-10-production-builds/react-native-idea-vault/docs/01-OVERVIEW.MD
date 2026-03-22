@@ -60,8 +60,6 @@ A strong demo sequence is:
 
 ## Why this example matters
 
-This project helps students see that professional mobile work is not only about UI code. It also includes:
-
 - native dependency management
 - Metro coordination
 - database lifecycle concerns
