@@ -22,6 +22,8 @@ This repository already contains the native `android/` and `ios/` folders expect
 
 On Android, the Gradle wrapper jar is fetched automatically on first use if it is not already present locally.
 
+This sample also leaves React Native's new architecture off by default so Windows builds avoid long generated CMake/codegen paths from autolinked libraries.
+
 ### Android
 
 ```bash
