@@ -17,6 +17,7 @@
     "expo": "~52.0.40",
     "expo-asset": "^55.0.10",
     "expo-font": "~13.0.4",
+    "expo-linking": "^55.0.9",
     "expo-router": "~4.0.19",
     "expo-splash-screen": "~0.29.24",
     "expo-sqlite": "~15.1.4",

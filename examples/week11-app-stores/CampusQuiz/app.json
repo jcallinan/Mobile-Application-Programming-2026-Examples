@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#182854"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "edu.pitt.bradford.campusquiz",
@@ -35,6 +37,14 @@
     "experiments": {
       "typedRoutes": true
     },
-    "scheme": "campusquiz"
+    "scheme": "campusquiz",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a24affa1-4370-468f-afd2-d20992589059"
+      }
+    }
   }
 }
